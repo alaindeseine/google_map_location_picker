@@ -137,7 +137,8 @@ class MapPickerState extends State<MapPicker> {
   @override
   Widget build(BuildContext context) {
     ThemeData theme = Theme.of(context);
-    flatButtonStyle = TextButton.styleFrom(
+    /*
+    flatButtonStyle = ButtonStyle.styleFrom(
       primary: Colors.white,
       //minimumSize: Size(88, 44),
       padding: EdgeInsets.symmetric(horizontal: 16.0),
@@ -146,6 +147,17 @@ class MapPickerState extends State<MapPicker> {
       ),
       backgroundColor: theme.primaryColor,
     );
+    */
+
+    flatButtonStyle = ButtonStyle(
+        foregroundColor: MaterialStateProperty.all(Colors.white),
+        backgroundColor: MaterialStateProperty.all(theme.primaryColor),
+        shape: MaterialStateProperty.all(RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(2.0)),
+        )),
+        padding: MaterialStateProperty.all(
+          EdgeInsets.symmetric(horizontal: 16.0),
+        ));
 
     if (widget.requiredGPS!) {
       _checkGeolocationPermission();

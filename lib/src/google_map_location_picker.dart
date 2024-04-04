@@ -136,7 +136,7 @@ class LocationPickerState extends State<LocationPicker> {
                 SizedBox(width: 24),
                 Expanded(
                   child: Text(
-                    S.of(context)?.finding_place ?? 'Finding place...',
+                    S.of(context).finding_place ?? 'Finding place...',
                     style: TextStyle(fontSize: 16),
                   ),
                 )
@@ -147,7 +147,7 @@ class LocationPickerState extends State<LocationPicker> {
       ),
     );
 
-    Overlay.of(context)!.insert(overlayEntry!);
+    Overlay.of(context).insert(overlayEntry!);
 
     autoCompleteSearch(place);
   }
