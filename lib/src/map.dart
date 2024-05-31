@@ -1,9 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
-//import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/services.dart' show rootBundle;
 import 'package:geolocator/geolocator.dart';
 import 'package:google_map_location_picker/generated/l10n.dart';
 import 'package:google_map_location_picker/src/providers/location_provider.dart';
@@ -128,34 +126,25 @@ class MapPickerState extends State<MapPicker> {
       _initCurrentLocation();
 
     if (widget.mapStylePath != null) {
-      rootBundle.loadString(widget.mapStylePath!).then((string) {
-        _mapStyle = string;
-      });
+      if (widget.mapStylePath!.isNotEmpty) {
+        rootBundle.loadString(widget.mapStylePath!).then((string) {
+          _mapStyle = string;
+        });
+      }
     }
   }
 
   @override
   Widget build(BuildContext context) {
     ThemeData theme = Theme.of(context);
-    /*
-    flatButtonStyle = ButtonStyle.styleFrom(
-      primary: Colors.white,
-      //minimumSize: Size(88, 44),
-      padding: EdgeInsets.symmetric(horizontal: 16.0),
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(Radius.circular(2.0)),
-      ),
-      backgroundColor: theme.primaryColor,
-    );
-    */
 
     flatButtonStyle = ButtonStyle(
-        foregroundColor: MaterialStateProperty.all(Colors.white),
-        backgroundColor: MaterialStateProperty.all(theme.primaryColor),
-        shape: MaterialStateProperty.all(RoundedRectangleBorder(
+        foregroundColor: WidgetStateProperty.all(Colors.white),
+        backgroundColor: WidgetStateProperty.all(theme.primaryColor),
+        shape: WidgetStateProperty.all(RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(2.0)),
         )),
-        padding: MaterialStateProperty.all(
+        padding: WidgetStateProperty.all(
           EdgeInsets.symmetric(horizontal: 16.0),
         ));
 
@@ -192,12 +181,15 @@ class MapPickerState extends State<MapPicker> {
               target: widget.initialCenter!,
               zoom: widget.initialZoom!,
             ),
+            style: widget.mapStylePath,
             onMapCreated: (GoogleMapController controller) {
               mapController.complete(controller);
               //Implementation of mapStyle
+              /*
               if (widget.mapStylePath != null) {
                 controller.setMapStyle(_mapStyle);
               }
+              */
 
               _lastMapPosition = widget.initialCenter;
               LocationProvider.of(context, listen: false)
